@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Triagem Gmail</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #222;
+    --border: #2a2a2a;
+    --border2: #333;
+    --text: #e8e6e0;
+    --muted: #666;
+    --muted2: #888;
+    --accent: #c8f060;
+    --accent2: #a8d040;
+    --red: #ff6b6b;
+    --amber: #ffb347;
+    --green: #69d98a;
+    --blue: #64b5f6;
+    --font-sans: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); min-height: 100vh; }
+
+  header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; }
+  .logo span { color: var(--muted); }
+
+  .main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem; }
+
+  /* Login screen */
+  #screen-login { text-align: center; padding: 4rem 0; }
+  .hero-title { font-size: 2.8rem; font-weight: 300; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
+  .hero-title strong { font-weight: 500; color: var(--accent); }
+  .hero-sub { color: var(--muted2); font-size: 1rem; max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.6; }
+  .btn-google { display: inline-flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border2); color: var(--text); font-family: var(--font-sans); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+  .btn-google:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
+  .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .warning-box { display: inline-flex; align-items: flex-start; gap: 10px; background: #1a1500; border: 1px solid #3a3000; border-radius: 8px; padding: 12px 16px; margin-top: 2rem; text-align: left; max-width: 480px; }
+  .warning-box p { font-size: 12px; color: var(--amber); line-height: 1.5; }
+  .warning-box .wi { color: var(--amber); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+
+  /* Account tabs */
+  #screen-app { display: none; }
+  .accounts-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
+  .account-tab { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; transition: all 0.15s; }
+  .account-tab:hover { border-color: var(--accent); color: var(--accent); }
+  .account-tab.active { background: var(--accent); color: #0f0f0f; border-color: var(--accent); font-weight: 500; }
+  .btn-add { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; border: 1px dashed var(--border2); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Stats */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 2rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
+  .stat-label { font-size: 11px; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
+  .stat-value { font-size: 24px; font-weight: 300; }
+  .stat-value.c-red { color: var(--red); }
+  .stat-value.c-amber { color: var(--amber); }
+  .stat-value.c-green { color: var(--green); }
+  .stat-value.c-blue { color: var(--blue); }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .filter-btn { font-size: 12px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; transition: all 0.12s; }
+  .filter-btn:hover { color: var(--text); border-color: var(--border2); }
+  .filter-btn.active { border-color: transparent; }
+  .filter-btn[data-cat="all"].active { background: var(--surface2); color: var(--text); }
+  .filter-btn[data-cat="marketing"].active { background: #2a0a0a; color: var(--red); border-color: #4a1010; }
+  .filter-btn[data-cat="notification"].active { background: #1a1200; color: var(--amber); border-color: #3a2800; }
+  .filter-btn[data-cat="relevant"].active { background: #0a1f0f; color: var(--green); border-color: #1a3f1f; }
+  .filter-btn[data-cat="transactional"].active { background: #0a1525; color: var(--blue); border-color: #1a3050; }
+
+  /* Email list */
+  .email-list { display: flex; flex-direction: column; gap: 2px; }
+  .email-row { display: grid; grid-template-columns: 18px 90px 1fr 110px; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 8px; background: var(--surface); border: 1px solid transparent; cursor: pointer; transition: all 0.1s; font-size: 13px; }
+  .email-row:hover { border-color: var(--border2); background: var(--surface2); }
+  .email-row.selected { border-color: var(--accent); }
+  .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .cat-dot.marketing { background: var(--red); }
+  .cat-dot.notification { background: var(--amber); }
+  .cat-dot.relevant { background: var(--green); }
+  .cat-dot.transactional { background: var(--blue); }
+  .email-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+  .email-sender { font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .email-subject { color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .email-cat { font-size: 10px; font-family: var(--font-mono); text-align: right; }
+  .email-cat.marketing { color: var(--red); }
+  .email-cat.notification { color: var(--amber); }
+  .email-cat.relevant { color: var(--green); }
+  .email-cat.transactional { color: var(--blue); }
+
+  /* Loading */
+  .loading { text-align: center; padding: 3rem; color: var(--muted); font-family: var(--font-mono); font-size: 13px; }
+  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Empty */
+  .empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 13px; }
+
+  /* Error */
+  .error-box { background: #1a0a0a; border: 1px solid #4a1010; border-radius: 8px; padding: 1rem 1.25rem; color: var(--red); font-size: 13px; margin: 1rem 0; }
+
+  /* Verdict */
+  .verdict { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .verdict-text { font-size: 14px; line-height: 1.6; color: var(--muted2); }
+  .verdict-text strong { color: var(--text); }
+  .verdict-badge { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
+  .verdict-badge.safe { background: #0a1f0f; color: var(--green); border: 1px solid #1a3f1f; }
+  .verdict-badge.caution { background: #1a1200; color: var(--amber); border: 1px solid #3a2800; }
+
+  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 11px; font-family: var(--font-mono); border-top: 1px solid var(--border); margin-top: 3rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">gmail<span>.</span>triagem <span>// v1.0</span></div>
+  <div style="font-size:12px; color: var(--muted); font-family: var(--font-mono);" id="header-account"></div>
+</header>
+
+<div class="main">
+
+  <!-- LOGIN SCREEN -->
+  <div id="screen-login">
+    <h1 class="hero-title">Triagem de<br><strong>contas Gmail</strong></h1>
+    <p class="hero-sub">Conecte uma conta Gmail, veja os emails classificados automaticamente e decida com segurança qual pode encerrar.</p>
+    <button class="btn-google" onclick="startAuth()">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Conectar conta Gmail
+    </button>
+    <div class="warning-box">
+      <span class="wi">⚠</span>
+      <p>O app solicita apenas permissão de <strong>leitura</strong>. Nenhum email será enviado, alterado ou excluído. Seus dados não saem do seu navegador.</p>
+    </div>
+    <div id="login-error"></div>
+  </div>
+
+  <!-- APP SCREEN -->
+  <div id="screen-app">
+    <div class="accounts-bar" id="accounts-bar">
+      <button class="btn-add" onclick="addAccount()">+ adicionar conta</button>
+    </div>
+
+    <div id="account-content"></div>
+  </div>
+
+</div>
+
+<footer>triagem gmail &nbsp;·&nbsp; dados processados localmente no seu navegador &nbsp;·&nbsp; nenhuma informação é enviada a servidores externos</footer>
+
+<script>
+const CLIENT_ID = '607939008390-cehdk66ss8cicri33ap0357nd7hrpei0.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/gmail.readonly';
+
+let accounts = {}; // email -> { token, emails }
+let activeAccount = null;
+let activeFilter = 'all';
+
+function startAuth() {
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
+    redirect_uri: window.location.href.split('?')[0].split('#')[0],
+    response_type: 'token',
+    scope: SCOPES,
+    prompt: 'select_account',
+    state: 'auth'
+  });
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+}
+
+function addAccount() {
+  const params = new URLSearchParams({
+    client_id: CLIENT_ID,
+    redirect_uri: window.location.href.split('?')[0].split('#')[0],
+    response_type: 'token',
+    scope: SCOPES,
+    prompt: 'select_account',
+    state: 'auth'
+  });
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+}
+
+function parseHash() {
+  const hash = window.location.hash.substring(1);
+  const params = new URLSearchParams(hash);
+  return {
+    token: params.get('access_token'),
+    state: params.get('state')
+  };
+}
+
+async function getUserEmail(token) {
+  const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+    headers: { Authorization: 'Bearer ' + token }
+  });
+  const d = await r.json();
+  return d.email;
+}
+
+async function fetchEmails(token) {
+  // Get up to 200 message IDs
+  let messages = [];
+  let pageToken = null;
+  do {
+    const url = new URL('https://gmail.googleapis.com/gmail/v1/users/me/messages');
+    url.searchParams.set('maxResults', '100');
+    url.searchParams.set('labelIds', 'INBOX');
+    if (pageToken) url.searchParams.set('pageToken', pageToken);
+    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + token } });
+    const d = await r.json();
+    if (d.messages) messages = messages.concat(d.messages);
+    pageToken = d.nextPageToken;
+  } while (pageToken && messages.length < 200);
+
+  // Fetch metadata in batches of 10
+  const emails = [];
+  for (let i = 0; i < messages.length; i += 10) {
+    const batch = messages.slice(i, i + 10);
+    const results = await Promise.all(batch.map(m =>
+      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`, {
+        headers: { Authorization: 'Bearer ' + token }
+      }).then(r => r.json())
+    ));
+    for (const msg of results) {
+      if (!msg.payload) continue;
+      const headers = msg.payload.headers || [];
+      const get = name => (headers.find(h => h.name === name) || {}).value || '';
+      const from = get('From');
+      const subject = get('Subject') || '(sem assunto)';
+      const date = get('Date');
+      const fromEmail = (from.match(/<([^>]+)>/) || [])[1] || from;
+      const fromName = from.replace(/<[^>]+>/, '').replace(/"/g, '').trim() || fromEmail;
+      emails.push({ id: msg.id, from: fromName, email: fromEmail, subject, date: formatDate(date), category: categorize(fromEmail, fromName, subject) });
+    }
+    // Update progress
+    document.getElementById('load-progress') && (document.getElementById('load-progress').textContent = `carregando... ${emails.length} de ~${messages.length}`);
+  }
+  return emails;
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  try {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
+  } catch { return dateStr.substring(0, 10); }
+}
+
+function categorize(email, name, subject) {
+  const e = (email + ' ' + name + ' ' + subject).toLowerCase();
+  // Marketing / newsletter
+  const mktPatterns = [
+    'unsubscribe','descadastrar','cancelar inscrição','newsletter','noreply','no-reply',
+    'marketing','promo','offer','oferta','desconto','discount','sale','black friday',
+    'zapier','linktree','suno','chatgpt','openai','microsoft designer','youtube premium',
+    'notify','notification@','updates@','info@','hello@','hi@','team@',
+    'mailer','campaign','mailchimp','sendgrid','klaviyo','hubspot',
+    'webinar','evento','register','inscreva'
+  ];
+  if (mktPatterns.some(p => e.includes(p))) return 'marketing';
+
+  // Notifications / automated
+  const notifPatterns = [
+    'google','alerta de segurança','security alert','sign-in','new sign',
+    'account','conta','facebook','instagram','twitter','linkedin','github',
+    'slack','notion','trello','jira','drive','calendar','meet',
+    'payment','pagamento','invoice','fatura','recibo','receipt',
+    'order','pedido','shipped','entregue','tracking'
+  ];
+  if (notifPatterns.some(p => e.includes(p))) return 'notification';
+
+  // Transactional
+  const transPatterns = [
+    'confirmação','confirmation','verify','verificar','activate','ativar',
+    'reset','redefinir','senha','password','código','code','otp',
+    'booking','reserva','ticket','ingresso'
+  ];
+  if (transPatterns.some(p => e.includes(p))) return 'transactional';
+
+  // Default: relevant
+  return 'relevant';
+}
+
+function renderApp() {
+  document.getElementById('screen-login').style.display = 'none';
+  document.getElementById('screen-app').style.display = 'block';
+  renderTabs();
+  if (activeAccount) renderAccount(activeAccount);
+}
+
+function renderTabs() {
+  const bar = document.getElementById('accounts-bar');
+  bar.innerHTML = '';
+  for (const email of Object.keys(accounts)) {
+    const btn = document.createElement('button');
+    btn.className = 'account-tab' + (email === activeAccount ? ' active' : '');
+    btn.textContent = email;
+    btn.onclick = () => { activeAccount = email; activeFilter = 'all'; renderApp(); };
+    bar.appendChild(btn);
+  }
+  const add = document.createElement('button');
+  add.className = 'btn-add';
+  add.textContent = '+ adicionar conta';
+  add.onclick = addAccount;
+  bar.appendChild(add);
+}
+
+function renderAccount(email) {
+  document.getElementById('header-account').textContent = email;
+  const content = document.getElementById('account-content');
+  const data = accounts[email];
+
+  if (data.loading) {
+    content.innerHTML = `<div class="loading"><div class="spinner"></div><br><span id="load-progress">carregando emails...</span></div>`;
+    return;
+  }
+  if (data.error) {
+    content.innerHTML = `<div class="error-box">Erro ao carregar emails: ${data.error}</div>`;
+    return;
+  }
+
+  const emails = data.emails || [];
+  const counts = { marketing: 0, notification: 0, relevant: 0, transactional: 0 };
+  for (const e of emails) counts[e.category] = (counts[e.category] || 0) + 1;
+
+  const filtered = activeFilter === 'all' ? emails : emails.filter(e => e.category === activeFilter);
+
+  const relevantCount = counts.relevant;
+  const verdict = relevantCount === 0
+    ? { text: 'Nenhum email relevante encontrado. <strong>Conta pode ser encerrada com segurança.</strong>', cls: 'safe', label: '✓ seguro encerrar' }
+    : relevantCount <= 5
+    ? { text: `${relevantCount} email(s) potencialmente relevante(s). <strong>Revise antes de encerrar.</strong>`, cls: 'caution', label: '⚠ revisar antes' }
+    : { text: `${relevantCount} emails relevantes encontrados. <strong>Recomendamos revisar com atenção.</strong>`, cls: 'caution', label: '⚠ revisar antes' };
+
+  content.innerHTML = `
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">total</div><div class="stat-value">${emails.length}</div></div>
+      <div class="stat-card"><div class="stat-label">marketing</div><div class="stat-value c-red">${counts.marketing}</div></div>
+      <div class="stat-card"><div class="stat-label">notificações</div><div class="stat-value c-amber">${counts.notification}</div></div>
+      <div class="stat-card"><div class="stat-label">relevantes</div><div class="stat-value c-green">${counts.relevant}</div></div>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn${activeFilter==='all'?' active':''}" data-cat="all" onclick="setFilter('all')">todos (${emails.length})</button>
+      <button class="filter-btn${activeFilter==='marketing'?' active':''}" data-cat="marketing" onclick="setFilter('marketing')">marketing (${counts.marketing})</button>
+      <button class="filter-btn${activeFilter==='notification'?' active':''}" data-cat="notification" onclick="setFilter('notification')">notificações (${counts.notification})</button>
+      <button class="filter-btn${activeFilter==='relevant'?' active':''}" data-cat="relevant" onclick="setFilter('relevant')">relevantes (${counts.relevant})</button>
+      <button class="filter-btn${activeFilter==='transactional'?' active':''}" data-cat="transactional" onclick="setFilter('transactional')">transacionais (${counts.transactional})</button>
+    </div>
+
+    <div class="email-list" id="email-list">
+      ${filtered.length === 0 ? '<div class="empty">nenhum email nesta categoria</div>' :
+        filtered.map(e => `
+          <div class="email-row">
+            <div class="cat-dot ${e.category}"></div>
+            <div class="email-date">${e.date}</div>
+            <div style="overflow:hidden">
+              <div class="email-sender">${escHtml(e.from)}</div>
+              <div class="email-subject">${escHtml(e.subject)}</div>
+            </div>
+            <div class="email-cat ${e.category}">${catLabel(e.category)}</div>
+          </div>`).join('')}
+    </div>
+
+    <div class="verdict">
+      <div class="verdict-text">${verdict.text}</div>
+      <div class="verdict-badge ${verdict.cls}">${verdict.label}</div>
+    </div>
+  `;
+}
+
+function setFilter(cat) {
+  activeFilter = cat;
+  renderAccount(activeAccount);
+}
+
+function catLabel(cat) {
+  return { marketing: 'marketing', notification: 'notificação', relevant: 'relevante', transactional: 'transacional' }[cat] || cat;
+}
+
+function escHtml(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function init() {
+  const { token, state } = parseHash();
+  if (token && state === 'auth') {
+    window.history.replaceState({}, '', window.location.pathname);
+    try {
+      const email = await getUserEmail(token);
+      accounts[email] = { token, loading: true, emails: [] };
+      activeAccount = email;
+      renderApp();
+      const emails = await fetchEmails(token);
+      accounts[email] = { token, loading: false, emails };
+      renderApp();
+    } catch (err) {
+      const email = activeAccount || 'conta';
+      if (accounts[email]) accounts[email] = { loading: false, error: err.message };
+      renderApp();
+    }
+  }
+  // Restore from sessionStorage
+  const saved = sessionStorage.getItem('gmail_triagem');
+  if (saved && !token) {
+    try {
+      const parsed = JSON.parse(saved);
+      accounts = parsed.accounts || {};
+      activeAccount = parsed.activeAccount;
+      if (Object.keys(accounts).length > 0) renderApp();
+    } catch {}
+  }
+}
+
+// Save state on unload
+window.addEventListener('beforeunload', () => {
+  sessionStorage.setItem('gmail_triagem', JSON.stringify({ accounts, activeAccount }));
+});
+
+init();
+</script>
+</body>
+</html>
