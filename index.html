@@ -19,9 +19,7 @@ header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display:
 .logo { font-family: var(--mono); font-size: 13px; color: var(--accent); }
 .logo span { color: var(--muted); }
 #header-email { font-size: 12px; color: var(--muted); font-family: var(--mono); }
-.main { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
-
-/* Login */
+.main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem; }
 #screen-login { text-align: center; padding: 4rem 0; }
 .hero { font-size: 2.6rem; font-weight: 300; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
 .hero strong { font-weight: 500; color: var(--accent); }
@@ -31,19 +29,12 @@ header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display:
 .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
 .info-box { display: inline-flex; align-items: flex-start; gap: 10px; background: #111800; border: 1px solid #2a3a00; border-radius: 8px; padding: 12px 16px; margin-top: 1.5rem; text-align: left; max-width: 460px; }
 .info-box p { font-size: 12px; color: #a8c840; line-height: 1.5; }
-
-/* App */
 #screen-app { display: none; }
-.section-title { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
-
-/* Stats */
 .stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1.5rem; }
 .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
 .stat-label { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; }
 .stat-value { font-size: 22px; font-weight: 300; }
-.c-red { color: var(--red); } .c-amber { color: var(--amber); } .c-green { color: var(--green); } .c-blue { color: var(--blue); }
-
-/* Action bar */
+.c-red { color: var(--red); } .c-amber { color: var(--amber); } .c-green { color: var(--green); }
 .action-bar { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
 .btn-action { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface); color: var(--text); cursor: pointer; transition: all 0.15s; font-family: var(--font); }
 .btn-action:hover { border-color: var(--accent); color: var(--accent); }
@@ -51,18 +42,12 @@ header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display:
 .btn-action.primary:hover { background: #a8d040; }
 .btn-action.danger { border-color: #4a1010; color: var(--red); }
 .btn-action.danger:hover { background: #1a0505; }
-.btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
-
-/* Progress */
 #progress-bar { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 1rem; }
 .progress-label { font-size: 12px; color: var(--muted2); font-family: var(--mono); margin-bottom: 8px; }
 .progress-track { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
 .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
-
-/* Filter */
 .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
 .fbtn { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; font-family: var(--font); transition: all 0.12s; }
-.fbtn:hover { color: var(--text); }
 .fbtn.active { font-weight: 500; }
 .fbtn[data-f="all"].active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
 .fbtn[data-f="operacional"].active { background: #0a1f0f; color: var(--green); border-color: #1a3f1f; }
@@ -70,12 +55,9 @@ header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display:
 .fbtn[data-f="notificacao"].active { background: #1a1200; color: var(--amber); border-color: #3a2800; }
 .fbtn[data-f="transacional"].active { background: #0a1525; color: var(--blue); border-color: #1a3050; }
 .fbtn[data-f="lixo"].active { background: #1a0a0a; color: #ff4444; border-color: #3a1010; }
-
-/* Email list */
 .email-list { display: flex; flex-direction: column; gap: 2px; }
-.erow { display: grid; grid-template-columns: 16px minmax(0,180px) minmax(0,1fr) 100px 90px; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 6px; background: var(--surface); border: 1px solid transparent; font-size: 13px; cursor: pointer; transition: all 0.1s; }
+.erow { display: grid; grid-template-columns: 16px minmax(0,180px) minmax(0,1fr) 100px 110px; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 6px; background: var(--surface); border: 1px solid transparent; font-size: 13px; transition: all 0.1s; }
 .erow:hover { border-color: var(--border2); }
-.erow.selected { border-color: var(--accent); background: var(--surface2); }
 .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .dot.operacional { background: var(--green); }
 .dot.marketing { background: var(--red); }
@@ -91,58 +73,46 @@ header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display:
 .ecat.notificacao { color: var(--amber); }
 .ecat.transacional { color: var(--blue); }
 .ecat.lixo { color: #666; }
-
-/* Labels panel */
-.labels-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
-.label-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.label-item:last-child { border-bottom: none; }
-.label-name { font-family: var(--mono); font-size: 12px; }
-.label-name.operacional { color: var(--green); }
-.label-count { font-size: 12px; color: var(--muted); }
-
-/* Toast */
-#toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--text); opacity: 0; transition: opacity 0.2s; pointer-events: none; font-family: var(--mono); z-index: 100; }
-#toast.show { opacity: 1; }
-
-/* Loading screen */
+.labels-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+.label-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+.label-name { font-family: var(--mono); font-size: 12px; color: var(--green); }
+.label-desc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.label-count { font-size: 12px; color: var(--muted); flex-shrink: 0; }
+.section-title { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
 #screen-loading { display: none; text-align: center; padding: 4rem 0; }
 .spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .loading-msg { font-family: var(--mono); font-size: 13px; color: var(--muted2); }
-
+#toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--text); opacity: 0; transition: opacity 0.2s; pointer-events: none; font-family: var(--mono); z-index: 100; max-width: 320px; }
+#toast.show { opacity: 1; }
 footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 11px; font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 3rem; }
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">gmail<span>.</span>triagem <span>// v2.0</span></div>
+  <div class="logo">gmail<span>.</span>triagem <span>// v2.1</span></div>
   <div id="header-email"></div>
 </header>
-
 <div class="main">
 
-  <!-- LOGIN -->
   <div id="screen-login">
     <h1 class="hero">Organize seu<br><strong>Gmail</strong></h1>
-    <p class="hero-sub">Conecte uma conta, classifique os emails automaticamente, crie pastas e jogue o lixo fora — tudo em um clique.</p>
+    <p class="hero-sub">Conecte uma conta, classifique os emails, crie pastas operacionais e limpe o lixo — tudo em um clique.</p>
     <button class="btn-google" onclick="startAuth()">
       <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       Conectar conta Gmail
     </button>
     <div class="info-box">
-      <p>Permissões solicitadas: <strong>leitura e organização</strong> (mover, criar pastas, lixeira). Nenhum email é enviado ou deletado permanentemente.</p>
+      <p>Permissões: <strong>leitura e organização</strong> (mover, criar pastas, lixeira). Nenhum email é enviado ou deletado permanentemente.</p>
     </div>
   </div>
 
-  <!-- LOADING -->
   <div id="screen-loading">
     <div class="spinner"></div>
-    <div class="loading-msg" id="loading-msg">carregando emails...</div>
+    <div class="loading-msg" id="loading-msg">carregando...</div>
   </div>
 
-  <!-- APP -->
   <div id="screen-app">
-
     <div class="stats-row">
       <div class="stat"><div class="stat-label">total</div><div class="stat-value" id="s-total">—</div></div>
       <div class="stat"><div class="stat-label">operacional</div><div class="stat-value c-green" id="s-op">—</div></div>
@@ -152,21 +122,11 @@ footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 11
     </div>
 
     <div class="action-bar">
-      <button class="btn-action primary" onclick="runCleanup()" id="btn-cleanup">
-        ✦ Rodar limpeza mensal
-      </button>
-      <button class="btn-action" onclick="createLabels()" id="btn-labels">
-        + Criar pastas operacionais
-      </button>
-      <button class="btn-action danger" onclick="trashAll()" id="btn-trash">
-        ⊘ Jogar lixo na lixeira
-      </button>
-      <button class="btn-action" onclick="reloadEmails()" style="margin-left:auto">
-        ↺ Recarregar
-      </button>
-      <button class="btn-action" onclick="switchAccount()">
-        Trocar conta
-      </button>
+      <button class="btn-action primary" onclick="runCleanup()">✦ Limpeza mensal</button>
+      <button class="btn-action" onclick="createLabels()">+ Criar pastas operacionais</button>
+      <button class="btn-action danger" onclick="trashJunk()">⊘ Jogar lixo na lixeira</button>
+      <button class="btn-action" onclick="reloadEmails()" style="margin-left:auto">↺ Recarregar</button>
+      <button class="btn-action" onclick="switchAccount()">Trocar conta</button>
     </div>
 
     <div id="progress-bar">
@@ -174,7 +134,10 @@ footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 11
       <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
-    <div id="labels-container"></div>
+    <div id="labels-section" style="display:none; margin-bottom:1.5rem">
+      <div class="section-title">pastas operacionais — contas ativas e pagas</div>
+      <div class="labels-grid" id="labels-grid"></div>
+    </div>
 
     <div class="filter-row">
       <button class="fbtn active" data-f="all" onclick="setFilter('all')">todos</button>
@@ -188,7 +151,6 @@ footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 11
     <div class="email-list" id="email-list"></div>
   </div>
 </div>
-
 <div id="toast"></div>
 <footer>gmail.triagem // sacwbr-ai // dados processados localmente</footer>
 
@@ -197,38 +159,95 @@ const CLIENT_ID = '607939008390-cehdk66ss8cicri33ap0357nd7hrpei0.apps.googleuser
 const REDIRECT = 'https://sacwbr-ai.github.io/gmail-triagem';
 const SCOPES = 'https://www.googleapis.com/auth/gmail.modify';
 
-let token = null;
-let allEmails = [];
-let curFilter = 'all';
-let labelMap = {};
+// ─── REGRAS OPERACIONAIS ───────────────────────────────────────────────────
+// Cada entrada: { label, desc, match[] }
+// match[] = strings que aparecem no remetente ou assunto (lowercase)
+const OPERACIONAL_RULES = [
+  // Contas pagas confirmadas
+  { label: 'Operacional/Anthropic-Claude',  desc: 'Assinatura Claude Pro',         match: ['anthropic','claude pro','welcome to the pro'] },
+  { label: 'Operacional/Goodnotes',         desc: 'Assinatura anual Goodnotes',     match: ['goodnotes','paddle.com'] },
+  { label: 'Operacional/ChatGPT-OpenAI',    desc: 'Conta OpenAI/ChatGPT',           match: ['openai','chatgpt'] },
+  { label: 'Operacional/YouTube-Premium',   desc: 'YouTube Premium',               match: ['youtube premium','youtube premium lite'] },
+  { label: 'Operacional/Canva-Pro',         desc: 'Canva / FastSpring',             match: ['fastspring checkout','sua assinatura canva','canva pro'] },
+  { label: 'Operacional/Grammarly',         desc: 'Grammarly Pro',                  match: ['grammarly'] },
+  { label: 'Operacional/Perplexity',        desc: 'Perplexity Pro',                 match: ['perplexity'] },
+  { label: 'Operacional/Figma',             desc: 'Figma — design',                 match: ['figma'] },
+  { label: 'Operacional/Notion',            desc: 'Notion',                         match: ['notify@mail.notion.so','notion'] },
+  { label: 'Operacional/Tactiq',            desc: 'Transcrições de reuniões',       match: ['tactiq'] },
+  { label: 'Operacional/MeetGeek',          desc: 'Gravação de reuniões',           match: ['meetgeek'] },
+  { label: 'Operacional/Otter',             desc: 'Transcrição de áudio',           match: ['otter.ai','the otter'] },
+  { label: 'Operacional/MindMeister',       desc: 'Mapas mentais',                  match: ['meister.co','mindmeister'] },
+  { label: 'Operacional/Gamma',             desc: 'Apresentações Gamma',            match: ['gamma'] },
+  // Financeiro
+  { label: 'Operacional/XP-Investimentos',  desc: 'XP Inc. — investimentos',        match: ['xp inc','xpi.com.br'] },
+  { label: 'Operacional/Mercado-Pago',      desc: 'Mercado Pago',                   match: ['mercado pago'] },
+  { label: 'Operacional/PagueMenos',        desc: 'Farmácia PagueMenos',            match: ['paguemenos','farmácias paguemenos'] },
+  { label: 'Operacional/Airbnb',            desc: 'Reservas Airbnb',                match: ['airbnb'] },
+  { label: 'Operacional/Shopee',            desc: 'Shopee — compras',               match: ['shopee'] },
+  { label: 'Operacional/iFood',             desc: 'iFood',                          match: ['ifood','naoresponder@ifood'] },
+  // Google serviços
+  { label: 'Operacional/Google-Ads',        desc: 'Google Ads — conta ativa',       match: ['google ads','google cloud'] },
+  { label: 'Operacional/Google-Photos',     desc: 'Google Fotos',                   match: ['google photos','google fotos'] },
+  // Hub profissional
+  { label: 'Operacional/HUB-TalentoSenior', desc: 'Comunidade HUB circle.so',      match: ['circle.so','silvia.andrade@','armando@email.circle','juliana.ramalho@email','cris.sabbag@email','rachel.andrade@email'] },
+  // Cursos/eventos com compra confirmada
+  { label: 'Operacional/Training-For-Comics', desc: 'Curso TFC — compra confirmada', match: ['training for comics'] },
+  { label: 'Operacional/Deutsche-Schule',   desc: 'Evento Deutsche Schule',         match: ['imaikai','deutsche schule'] },
+  { label: 'Operacional/Ligmincha',         desc: 'Retiros e palestras Ligmincha',  match: ['ligmincha'] },
+];
 
-// ---- AUTH ----
+// ─── CATEGORIZAÇÃO ────────────────────────────────────────────────────────
+function categorize(from, subject) {
+  const t = (from + ' ' + subject).toLowerCase();
+
+  // Operacional — verifica regras acima
+  for (const rule of OPERACIONAL_RULES) {
+    if (rule.match.some(m => t.includes(m))) return 'operacional';
+  }
+
+  // Notificação Google (segurança, conta)
+  const ntf = ['alerta de segurança','security alert','novo acesso','sign-in','google account team','microsoft outlook','microsoft family','apple id','conta globo','novo dispositivo','nvidia accounts'];
+  if (ntf.some(p => t.includes(p))) return 'notificacao';
+
+  // Transacional (confirmações, verificações)
+  const trn = ['confirmação de inscrição','confirm','verify','verificar seu e-mail','código de verificação','reset','redefinir senha','bem-vindo','welcome to','dados de acesso','acesso liberado','seu cadastro'];
+  if (trn.some(p => t.includes(p))) return 'transacional';
+
+  // Lixo explícito (newsletters, marketing, redes sociais)
+  const lixo = [
+    'unsubscribe','descadastrar','newsletter',
+    'cer - sebrae','fast company','band.com','minha band','esporte na band','fórmula 1',
+    'acdsee','capcut','canvas ','canvas support','canvas customer',
+    'fred ','fred |','clube de autores','uiclap','training for comics newsletter',
+    'anefac','mentimeter','dharmesh','simple.ai','agent.ai',
+    'aliexpress','g1 ','globo.com','the economist',
+    'welltory','andy from welltory',
+    'retiro on-line','yogas dos sonhos',
+    'faculdade exame','vidnoz','imagineArt',
+    'canva design school','canva world tour','canva create',
+    'grammarly insights',
+    'instagram','gianabenatto','silvio.wille on instagram',
+    'airbnb ', // newsletter airbnb (não reservas)
+    'ju ramalho','ieda winter',
+    'alex lashkov','danny wesley',
+  ];
+  if (lixo.some(p => t.includes(p))) return 'lixo';
+
+  return 'marketing';
+}
+
+// ─── AUTH ─────────────────────────────────────────────────────────────────
+let token = null, allEmails = [], curFilter = 'all', labelMap = {};
+
 function startAuth() {
-  const p = new URLSearchParams({
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT,
-    response_type: 'token',
-    scope: SCOPES,
-    prompt: 'select_account'
-  });
+  sessionStorage.setItem('returnPath', window.location.pathname);
+  const p = new URLSearchParams({ client_id: CLIENT_ID, redirect_uri: REDIRECT, response_type: 'token', scope: SCOPES, prompt: 'select_account' });
   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
+function switchAccount() { token = null; allEmails = []; setScreen('login'); startAuth(); }
+function parseHash() { return new URLSearchParams(window.location.hash.substring(1)).get('access_token'); }
 
-function switchAccount() {
-  token = null; allEmails = [];
-  document.getElementById('screen-app').style.display = 'none';
-  document.getElementById('screen-login').style.display = 'block';
-  document.getElementById('header-email').textContent = '';
-  startAuth();
-}
-
-function parseHash() {
-  const h = window.location.hash.substring(1);
-  const p = new URLSearchParams(h);
-  return p.get('access_token');
-}
-
-// ---- API ----
+// ─── API ──────────────────────────────────────────────────────────────────
 async function api(path, method = 'GET', body = null) {
   const opts = { method, headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' } };
   if (body) opts.body = JSON.stringify(body);
@@ -237,142 +256,52 @@ async function api(path, method = 'GET', body = null) {
   return r.json();
 }
 
-// ---- CATEGORIZE ----
-function categorize(from, subject) {
-  const t = (from + ' ' + subject).toLowerCase();
-
-  // Operacional — contas pagas ou serviços ativos importantes
-  const op = [
-    'anthropic','claude','openai','chatgpt','google workspace','google one',
-    'goodnotes','paddle.com','grammarly','notion','figma','canva','adobe',
-    'github','netlify','vercel','aws','azure','digitalocean',
-    'xp inc','xpi','rico','clear','nubank','itau','bradesco','santander','inter','c6bank',
-    'mercado pago','paypal','stripe','2checkout',
-    'spotify','netflix','amazon prime','apple','microsoft 365',
-    'zapier','make','n8n','airtable',
-    'sympla','eventbrite',
-    'airbnb','booking',
-    'welltory','goodnotes','perplexity',
-    'tactiq','meetgeek','otter',
-    'imaikai','deutsche schule',
-    'ligmincha','instituto de ciências contempl',
-    'anefac','sebrae','ecid','primecursos',
-    'shopee','aliexpress','friopeças','oster','cacau lovers','pague menos',
-    'ifood','olx','quintoandar',
-    'tim','claro','vivo','oi ','net ','sky ',
-    'nfe','nota fiscal','boleto','fatura','cobrança','invoice','receipt','pagamento confirmado'
-  ];
-  if (op.some(p => t.includes(p))) return 'operacional';
-
-  // Marketing
-  const mkt = [
-    'unsubscribe','descadastrar','newsletter','no-reply','noreply',
-    'promo','oferta','desconto','discount','sale','black friday','cyber monday',
-    'band.com','minha band','esporte na band','fast company','g1 ','globo.com',
-    'acdsee','capcut','julius','presentations.ai','you.com','tengr','ideogram',
-    'fred ','clube de autores','uiclap','training for comics',
-    'cer - sebrae','cer sebrae','danny wesley','alex lashkov','linguix',
-    'mentimeter','faculdade exame','saint paul','vidnoz','imagineArt','imagine art',
-    'dharmesh','simple.ai','agent.ai','sam mallikarjunan',
-    'veed','gamma ','canva ','canva design','canva world','canva create',
-    'grammarly insights','perplexity ','andy from welltory',
-    'retiro on-line','ligmincha brasil','yogas dos sonhos',
-    'economist','tom standage','robert guest','edward carr','andrew palmer',
-    'airbnb ','welltory team',
-    'canvas ','formula 1 ','f1 ','fórmula 1'
-  ];
-  if (mkt.some(p => t.includes(p))) return 'marketing';
-
-  // Notificação
-  const ntf = [
-    'google','alerta de segurança','security alert','sign-in','novo acesso',
-    'microsoft outlook','microsoft family','microsoft designer',
-    'youtube','gmail','drive','calendar',
-    'facebook','instagram','twitter','linkedin','github ',
-    'slack','notion ','trello',
-    'apple id','icloud'
-  ];
-  if (ntf.some(p => t.includes(p))) return 'notificacao';
-
-  // Transacional
-  const trn = [
-    'confirmação','confirmation','verify','verificar','activate','ativar',
-    'reset','redefinir','senha','password','código de','otp','token',
-    'bem-vindo','welcome','cadastro','acesso liberado','dados de acesso',
-    'solicitação de acesso','compra confirmada','pedido','rastreio'
-  ];
-  if (trn.some(p => t.includes(p))) return 'transacional';
-
-  return 'lixo';
-}
-
-// ---- LOAD EMAILS ----
+// ─── LOAD ─────────────────────────────────────────────────────────────────
 async function loadEmails() {
-  setScreen('loading');
-  setLoading('buscando emails...');
+  setScreen('loading'); setLoading('buscando emails...');
   allEmails = [];
-
   try {
-    // Get existing labels
     const labelsRes = await api('/users/me/labels');
     labelMap = {};
     for (const l of labelsRes.labels || []) labelMap[l.name] = l.id;
 
-    // Fetch messages
     let msgs = [], pt = null;
     do {
       const url = `/users/me/messages?maxResults=100&labelIds=INBOX${pt ? '&pageToken=' + pt : ''}`;
       const d = await api(url);
       if (d.messages) msgs = msgs.concat(d.messages);
       pt = d.nextPageToken;
-      setLoading(`buscando... ${msgs.length} emails encontrados`);
+      setLoading(`buscando... ${msgs.length} emails`);
     } while (pt && msgs.length < 500);
 
-    // Fetch metadata in batches
     for (let i = 0; i < msgs.length; i += 20) {
       const batch = msgs.slice(i, i + 20);
-      const results = await Promise.all(batch.map(m =>
+      const res = await Promise.all(batch.map(m =>
         api(`/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`)
       ));
-      for (const msg of results) {
+      for (const msg of res) {
         if (!msg.payload) continue;
         const h = msg.payload.headers || [];
         const get = n => (h.find(x => x.name === n) || {}).value || '';
         const from = get('From');
-        const fromName = from.replace(/<[^>]+>/, '').replace(/"/g, '').trim() || from;
-        const fromEmail = (from.match(/<([^>]+)>/) || [])[1] || from;
-        const subject = get('Subject') || '(sem assunto)';
-        const date = formatDate(get('Date'));
-        allEmails.push({
-          id: msg.id,
-          from: fromName,
-          email: fromEmail,
-          subject,
-          date,
-          cat: categorize(from, subject),
-          labelIds: msg.labelIds || []
-        });
+        const name = from.replace(/<[^>]+>/, '').replace(/"/g, '').trim() || from;
+        allEmails.push({ id: msg.id, from: name, fromRaw: from, subject: get('Subject') || '(sem assunto)', date: fmtDate(get('Date')), cat: categorize(from, get('Subject')) });
       }
       setLoading(`classificando... ${Math.min(i + 20, msgs.length)} de ${msgs.length}`);
     }
-
-    setScreen('app');
-    renderStats();
-    renderList();
-    renderLabels();
-  } catch (e) {
-    setScreen('login');
-    toast('Erro: ' + e.message);
-  }
+    setScreen('app'); renderAll();
+  } catch (e) { setScreen('login'); toast('Erro: ' + e.message); }
 }
 
-function formatDate(s) {
+function fmtDate(s) {
   if (!s) return '';
   try { return new Date(s).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }); }
   catch { return s.substring(0, 10); }
 }
 
-// ---- RENDER ----
+// ─── RENDER ───────────────────────────────────────────────────────────────
+function renderAll() { renderStats(); renderLabelsPanel(); renderList(); }
+
 function renderStats() {
   const c = { operacional: 0, marketing: 0, notificacao: 0, transacional: 0, lixo: 0 };
   allEmails.forEach(e => c[e.cat] = (c[e.cat] || 0) + 1);
@@ -380,46 +309,44 @@ function renderStats() {
   document.getElementById('s-op').textContent = c.operacional;
   document.getElementById('s-mkt').textContent = c.marketing;
   document.getElementById('s-ntf').textContent = c.notificacao;
-  document.getElementById('s-lixo').textContent = c.lixo + c.transacional + c.marketing;
+  document.getElementById('s-lixo').textContent = c.lixo + c.marketing + c.transacional;
+}
+
+function renderLabelsPanel() {
+  const counts = {};
+  for (const e of allEmails) {
+    if (e.cat !== 'operacional') continue;
+    for (const rule of OPERACIONAL_RULES) {
+      const t = (e.fromRaw + ' ' + e.subject).toLowerCase();
+      if (rule.match.some(m => t.includes(m))) { counts[rule.label] = (counts[rule.label] || 0) + 1; break; }
+    }
+  }
+  const active = OPERACIONAL_RULES.filter(r => counts[r.label]);
+  if (!active.length) { document.getElementById('labels-section').style.display = 'none'; return; }
+  document.getElementById('labels-section').style.display = 'block';
+  document.getElementById('labels-grid').innerHTML = active.map(r => `
+    <div class="label-card">
+      <div>
+        <div class="label-name">📁 ${r.label}</div>
+        <div class="label-desc">${r.desc}</div>
+      </div>
+      <div class="label-count">${counts[r.label]} emails</div>
+    </div>`).join('');
 }
 
 function renderList() {
   const filtered = curFilter === 'all' ? allEmails : allEmails.filter(e => e.cat === curFilter);
+  const labels = { operacional: 'operacional', marketing: 'marketing', notificacao: 'notificação', transacional: 'transacional', lixo: 'lixo' };
   const el = document.getElementById('email-list');
-  const catLabel = { operacional: 'operacional', marketing: 'marketing', notificacao: 'notificação', transacional: 'transacional', lixo: 'lixo' };
-  if (!filtered.length) {
-    el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">nenhum email nesta categoria</div>';
-    return;
-  }
+  if (!filtered.length) { el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">nenhum email nesta categoria</div>'; return; }
   el.innerHTML = filtered.map(e => `
     <div class="erow">
       <div class="dot ${e.cat}"></div>
       <div class="esender">${esc(e.from)}</div>
       <div class="esubj">${esc(e.subject)}</div>
       <div class="edate">${e.date}</div>
-      <div class="ecat ${e.cat}">${catLabel[e.cat] || e.cat}</div>
+      <div class="ecat ${e.cat}">${labels[e.cat]}</div>
     </div>`).join('');
-}
-
-function renderLabels() {
-  const op = allEmails.filter(e => e.cat === 'operacional');
-  const senders = {};
-  for (const e of op) {
-    const domain = e.email.split('@')[1] || e.from;
-    const key = domain.replace(/\..+$/, '').replace(/^.+\./, '');
-    senders[key] = (senders[key] || 0) + 1;
-  }
-  const top = Object.entries(senders).sort((a, b) => b[1] - a[1]).slice(0, 10);
-  if (!top.length) { document.getElementById('labels-container').innerHTML = ''; return; }
-  document.getElementById('labels-container').innerHTML = `
-    <div class="labels-panel" style="margin-bottom:1.5rem">
-      <div class="section-title" style="margin-bottom:8px">pastas operacionais sugeridas</div>
-      ${top.map(([name, count]) => `
-        <div class="label-item">
-          <span class="label-name operacional">📁 Operacional/${name}</span>
-          <span class="label-count">${count} emails</span>
-        </div>`).join('')}
-    </div>`;
 }
 
 function setFilter(f) {
@@ -428,79 +355,64 @@ function setFilter(f) {
   renderList();
 }
 
-// ---- ACTIONS ----
+// ─── ACTIONS ──────────────────────────────────────────────────────────────
 async function createLabels() {
-  const op = allEmails.filter(e => e.cat === 'operacional');
-  const domains = new Set();
-  for (const e of op) {
-    const d = e.email.split('@')[1] || '';
-    const key = d.replace(/\..+$/, '').replace(/^.+\./, '') || e.from.split(' ')[0].toLowerCase();
-    domains.add(key);
-  }
-  setProgress(true, 'criando pastas...');
-  let created = 0;
-  const toCreate = Array.from(domains).slice(0, 20);
-  for (let i = 0; i < toCreate.length; i++) {
-    const name = 'Operacional/' + toCreate[i];
-    if (!labelMap[name]) {
-      try {
-        const res = await api('/users/me/labels', 'POST', { name, labelListVisibility: 'labelShow', messageListVisibility: 'show' });
-        labelMap[name] = res.id;
-        created++;
-      } catch {}
+  const counts = {};
+  for (const e of allEmails) {
+    if (e.cat !== 'operacional') continue;
+    for (const rule of OPERACIONAL_RULES) {
+      const t = (e.fromRaw + ' ' + e.subject).toLowerCase();
+      if (rule.match.some(m => t.includes(m))) { counts[rule.label] = true; break; }
     }
-    setProgressValue((i + 1) / toCreate.length * 100, `criando pastas... ${i + 1}/${toCreate.length}`);
   }
-  setProgress(false);
-  toast(`${created} pastas criadas no Gmail`);
+  const toCreate = Object.keys(counts).filter(l => !labelMap[l]);
+  if (!toCreate.length) { toast('Todas as pastas já existem no Gmail'); return; }
+  setProgress(true, 'criando pastas...');
+  let n = 0;
+  for (let i = 0; i < toCreate.length; i++) {
+    try {
+      const res = await api('/users/me/labels', 'POST', { name: toCreate[i], labelListVisibility: 'labelShow', messageListVisibility: 'show' });
+      labelMap[toCreate[i]] = res.id; n++;
+    } catch {}
+    setProgressValue((i + 1) / toCreate.length * 100, `criando ${i + 1}/${toCreate.length}...`);
+  }
+  setProgress(false); toast(`${n} pastas criadas no Gmail`); renderLabelsPanel();
 }
 
-async function trashAll() {
-  const toTrash = allEmails.filter(e => e.cat === 'lixo' || e.cat === 'marketing' || e.cat === 'transacional');
-  if (!toTrash.length) { toast('Nenhum email para jogar na lixeira'); return; }
-  if (!confirm(`Jogar ${toTrash.length} emails na lixeira? (lixo + marketing + transacionais)`)) return;
+async function trashJunk() {
+  const toTrash = allEmails.filter(e => ['lixo','marketing','transacional'].includes(e.cat));
+  if (!toTrash.length) { toast('Nenhum email para mover'); return; }
+  if (!confirm(`Mover ${toTrash.length} emails para a lixeira?\n(lixo + marketing + transacionais)\n\nPoderá recuperá-los em 30 dias.`)) return;
   setProgress(true, 'movendo para lixeira...');
   let done = 0;
   for (let i = 0; i < toTrash.length; i += 50) {
     const batch = toTrash.slice(i, i + 50);
-    try {
-      await api('/users/me/messages/batchModify', 'POST', {
-        ids: batch.map(e => e.id),
-        addLabelIds: ['TRASH'],
-        removeLabelIds: ['INBOX']
-      });
-    } catch {}
+    try { await api('/users/me/messages/batchModify', 'POST', { ids: batch.map(e => e.id), addLabelIds: ['TRASH'], removeLabelIds: ['INBOX'] }); } catch {}
     done += batch.length;
+    const ids = new Set(batch.map(e => e.id));
+    allEmails = allEmails.filter(e => !ids.has(e.id));
     setProgressValue(done / toTrash.length * 100, `movendo... ${done} de ${toTrash.length}`);
-    // Remove from local list
-    const batchIds = new Set(batch.map(e => e.id));
-    allEmails = allEmails.filter(e => !batchIds.has(e.id));
   }
-  setProgress(false);
-  renderStats(); renderList();
-  toast(`${done} emails movidos para a lixeira`);
+  setProgress(false); renderAll(); toast(`${done} emails movidos para a lixeira`);
 }
 
 async function runCleanup() {
-  const toTrash = allEmails.filter(e => e.cat === 'lixo' || e.cat === 'marketing' || e.cat === 'transacional');
-  const opEmails = allEmails.filter(e => e.cat === 'operacional');
-  if (!confirm(`Limpeza mensal:\n• Criar pastas operacionais\n• Jogar ${toTrash.length} emails na lixeira\n\nContinuar?`)) return;
+  const toTrash = allEmails.filter(e => ['lixo','marketing','transacional'].includes(e.cat));
+  if (!confirm(`Limpeza mensal completa:\n• Criar pastas operacionais no Gmail\n• Mover ${toTrash.length} emails para a lixeira\n\nContinuar?`)) return;
   await createLabels();
-  await trashAll();
+  await trashJunk();
   toast('Limpeza concluída!');
 }
 
-async function reloadEmails() {
-  await loadEmails();
-}
+async function reloadEmails() { await loadEmails(); }
 
-// ---- UTILS ----
+// ─── UTILS ────────────────────────────────────────────────────────────────
 function setScreen(s) {
   document.getElementById('screen-login').style.display = s === 'login' ? 'block' : 'none';
   document.getElementById('screen-loading').style.display = s === 'loading' ? 'block' : 'none';
   document.getElementById('screen-app').style.display = s === 'app' ? 'block' : 'none';
 }
-function setLoading(msg) { document.getElementById('loading-msg').textContent = msg; }
+function setLoading(m) { document.getElementById('loading-msg').textContent = m; }
 function setProgress(show, label = '') {
   document.getElementById('progress-bar').style.display = show ? 'block' : 'none';
   if (label) document.getElementById('progress-label').textContent = label;
@@ -514,10 +426,9 @@ function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').
 function toast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// ---- INIT ----
 async function init() {
   const t = parseHash();
   if (t) {
@@ -528,11 +439,8 @@ async function init() {
       document.getElementById('header-email').textContent = ui.email || '';
     } catch {}
     await loadEmails();
-  } else {
-    setScreen('login');
-  }
+  } else { setScreen('login'); }
 }
-
 init();
 </script>
 </body>
