@@ -357,26 +357,58 @@ function setFilter(f) {
 
 // ─── ACTIONS ──────────────────────────────────────────────────────────────
 async function createLabels() {
-  const counts = {};
+  // Build map: labelName -> [emailIds]
+  const labelEmails = {};
   for (const e of allEmails) {
     if (e.cat !== 'operacional') continue;
     for (const rule of OPERACIONAL_RULES) {
       const t = (e.fromRaw + ' ' + e.subject).toLowerCase();
-      if (rule.match.some(m => t.includes(m))) { counts[rule.label] = true; break; }
+      if (rule.match.some(m => t.includes(m))) {
+        if (!labelEmails[rule.label]) labelEmails[rule.label] = [];
+        labelEmails[rule.label].push(e.id);
+        break;
+      }
     }
   }
-  const toCreate = Object.keys(counts).filter(l => !labelMap[l]);
-  if (!toCreate.length) { toast('Todas as pastas já existem no Gmail'); return; }
+  const labels = Object.keys(labelEmails);
+  if (!labels.length) { toast('Nenhum email operacional encontrado'); return; }
+
   setProgress(true, 'criando pastas...');
-  let n = 0;
-  for (let i = 0; i < toCreate.length; i++) {
-    try {
-      const res = await api('/users/me/labels', 'POST', { name: toCreate[i], labelListVisibility: 'labelShow', messageListVisibility: 'show' });
-      labelMap[toCreate[i]] = res.id; n++;
-    } catch {}
-    setProgressValue((i + 1) / toCreate.length * 100, `criando ${i + 1}/${toCreate.length}...`);
+
+  // Step 1 — create missing labels
+  for (const name of labels) {
+    if (!labelMap[name]) {
+      try {
+        const res = await api('/users/me/labels', 'POST', { name, labelListVisibility: 'labelShow', messageListVisibility: 'show' });
+        labelMap[name] = res.id;
+      } catch {}
+    }
   }
-  setProgress(false); toast(`${n} pastas criadas no Gmail`); renderLabelsPanel();
+
+  // Step 2 — move emails into labels
+  let moved = 0;
+  const total = labels.reduce((acc, l) => acc + labelEmails[l].length, 0);
+  for (const name of labels) {
+    const lid = labelMap[name];
+    if (!lid) continue;
+    const ids = labelEmails[name];
+    for (let i = 0; i < ids.length; i += 50) {
+      const batch = ids.slice(i, i + 50);
+      try {
+        await api('/users/me/messages/batchModify', 'POST', {
+          ids: batch,
+          addLabelIds: [lid],
+          removeLabelIds: []
+        });
+      } catch {}
+      moved += batch.length;
+      setProgressValue(moved / total * 100, `movendo emails... ${moved} de ${total}`);
+    }
+  }
+
+  setProgress(false);
+  toast(`${labels.length} pastas criadas e ${moved} emails organizados`);
+  renderLabelsPanel();
 }
 
 async function trashJunk() {
