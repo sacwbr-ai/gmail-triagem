@@ -3,424 +3,535 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Triagem Gmail</title>
+<title>Gmail Triagem</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0f0f0f;
-    --surface: #1a1a1a;
-    --surface2: #222;
-    --border: #2a2a2a;
-    --border2: #333;
-    --text: #e8e6e0;
-    --muted: #666;
-    --muted2: #888;
-    --accent: #c8f060;
-    --accent2: #a8d040;
-    --red: #ff6b6b;
-    --amber: #ffb347;
-    --green: #69d98a;
-    --blue: #64b5f6;
-    --font-sans: 'DM Sans', sans-serif;
-    --font-mono: 'DM Mono', monospace;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); min-height: 100vh; }
+:root {
+  --bg: #0f0f0f; --surface: #1a1a1a; --surface2: #222;
+  --border: #2a2a2a; --border2: #333; --text: #e8e6e0;
+  --muted: #666; --muted2: #888; --accent: #c8f060;
+  --red: #ff6b6b; --amber: #ffb347; --green: #69d98a; --blue: #64b5f6;
+  --font: 'DM Sans', sans-serif; --mono: 'DM Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+header { padding: 1.25rem 2rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.logo { font-family: var(--mono); font-size: 13px; color: var(--accent); }
+.logo span { color: var(--muted); }
+#header-email { font-size: 12px; color: var(--muted); font-family: var(--mono); }
+.main { max-width: 900px; margin: 0 auto; padding: 2.5rem 1.5rem; }
 
-  header { padding: 2rem 2.5rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .logo { font-family: var(--font-mono); font-size: 13px; color: var(--accent); letter-spacing: 0.08em; }
-  .logo span { color: var(--muted); }
+/* Login */
+#screen-login { text-align: center; padding: 4rem 0; }
+.hero { font-size: 2.6rem; font-weight: 300; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
+.hero strong { font-weight: 500; color: var(--accent); }
+.hero-sub { color: var(--muted2); font-size: 1rem; max-width: 400px; margin: 0 auto 2rem; line-height: 1.6; }
+.btn-google { display: inline-flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border2); color: var(--text); font-family: var(--font); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.btn-google:hover { border-color: var(--accent); color: var(--accent); }
+.btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+.info-box { display: inline-flex; align-items: flex-start; gap: 10px; background: #111800; border: 1px solid #2a3a00; border-radius: 8px; padding: 12px 16px; margin-top: 1.5rem; text-align: left; max-width: 460px; }
+.info-box p { font-size: 12px; color: #a8c840; line-height: 1.5; }
 
-  .main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem; }
+/* App */
+#screen-app { display: none; }
+.section-title { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
 
-  /* Login screen */
-  #screen-login { text-align: center; padding: 4rem 0; }
-  .hero-title { font-size: 2.8rem; font-weight: 300; line-height: 1.2; margin-bottom: 1rem; letter-spacing: -0.02em; }
-  .hero-title strong { font-weight: 500; color: var(--accent); }
-  .hero-sub { color: var(--muted2); font-size: 1rem; max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.6; }
-  .btn-google { display: inline-flex; align-items: center; gap: 10px; background: var(--surface); border: 1px solid var(--border2); color: var(--text); font-family: var(--font-sans); font-size: 14px; font-weight: 500; padding: 12px 24px; border-radius: 8px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
-  .btn-google:hover { background: var(--surface2); border-color: var(--accent); color: var(--accent); }
-  .btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
-  .warning-box { display: inline-flex; align-items: flex-start; gap: 10px; background: #1a1500; border: 1px solid #3a3000; border-radius: 8px; padding: 12px 16px; margin-top: 2rem; text-align: left; max-width: 480px; }
-  .warning-box p { font-size: 12px; color: var(--amber); line-height: 1.5; }
-  .warning-box .wi { color: var(--amber); font-size: 16px; margin-top: 1px; flex-shrink: 0; }
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 1.5rem; }
+.stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; }
+.stat-label { font-size: 11px; color: var(--muted); font-family: var(--mono); margin-bottom: 4px; }
+.stat-value { font-size: 22px; font-weight: 300; }
+.c-red { color: var(--red); } .c-amber { color: var(--amber); } .c-green { color: var(--green); } .c-blue { color: var(--blue); }
 
-  /* Account tabs */
-  #screen-app { display: none; }
-  .accounts-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; align-items: center; }
-  .account-tab { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; transition: all 0.15s; }
-  .account-tab:hover { border-color: var(--accent); color: var(--accent); }
-  .account-tab.active { background: var(--accent); color: #0f0f0f; border-color: var(--accent); font-weight: 500; }
-  .btn-add { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; border: 1px dashed var(--border2); background: transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
-  .btn-add:hover { border-color: var(--accent); color: var(--accent); }
+/* Action bar */
+.action-bar { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+.btn-action { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface); color: var(--text); cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.btn-action:hover { border-color: var(--accent); color: var(--accent); }
+.btn-action.primary { background: var(--accent); color: #0f0f0f; border-color: var(--accent); font-weight: 500; }
+.btn-action.primary:hover { background: #a8d040; }
+.btn-action.danger { border-color: #4a1010; color: var(--red); }
+.btn-action.danger:hover { background: #1a0505; }
+.btn-action:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* Stats */
-  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 2rem; }
-  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; }
-  .stat-label { font-size: 11px; color: var(--muted); font-family: var(--font-mono); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 6px; }
-  .stat-value { font-size: 24px; font-weight: 300; }
-  .stat-value.c-red { color: var(--red); }
-  .stat-value.c-amber { color: var(--amber); }
-  .stat-value.c-green { color: var(--green); }
-  .stat-value.c-blue { color: var(--blue); }
+/* Progress */
+#progress-bar { display: none; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 1rem; }
+.progress-label { font-size: 12px; color: var(--muted2); font-family: var(--mono); margin-bottom: 8px; }
+.progress-track { height: 4px; background: var(--border2); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; width: 0%; }
 
-  /* Filter bar */
-  .filter-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .filter-btn { font-size: 12px; padding: 5px 12px; border-radius: 6px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; transition: all 0.12s; }
-  .filter-btn:hover { color: var(--text); border-color: var(--border2); }
-  .filter-btn.active { border-color: transparent; }
-  .filter-btn[data-cat="all"].active { background: var(--surface2); color: var(--text); }
-  .filter-btn[data-cat="marketing"].active { background: #2a0a0a; color: var(--red); border-color: #4a1010; }
-  .filter-btn[data-cat="notification"].active { background: #1a1200; color: var(--amber); border-color: #3a2800; }
-  .filter-btn[data-cat="relevant"].active { background: #0a1f0f; color: var(--green); border-color: #1a3f1f; }
-  .filter-btn[data-cat="transactional"].active { background: #0a1525; color: var(--blue); border-color: #1a3050; }
+/* Filter */
+.filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.fbtn { font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--muted2); cursor: pointer; font-family: var(--font); transition: all 0.12s; }
+.fbtn:hover { color: var(--text); }
+.fbtn.active { font-weight: 500; }
+.fbtn[data-f="all"].active { background: var(--surface2); color: var(--text); border-color: var(--border2); }
+.fbtn[data-f="operacional"].active { background: #0a1f0f; color: var(--green); border-color: #1a3f1f; }
+.fbtn[data-f="marketing"].active { background: #2a0a0a; color: var(--red); border-color: #4a1010; }
+.fbtn[data-f="notificacao"].active { background: #1a1200; color: var(--amber); border-color: #3a2800; }
+.fbtn[data-f="transacional"].active { background: #0a1525; color: var(--blue); border-color: #1a3050; }
+.fbtn[data-f="lixo"].active { background: #1a0a0a; color: #ff4444; border-color: #3a1010; }
 
-  /* Email list */
-  .email-list { display: flex; flex-direction: column; gap: 2px; }
-  .email-row { display: grid; grid-template-columns: 18px 90px 1fr 110px; gap: 12px; align-items: center; padding: 10px 14px; border-radius: 8px; background: var(--surface); border: 1px solid transparent; cursor: pointer; transition: all 0.1s; font-size: 13px; }
-  .email-row:hover { border-color: var(--border2); background: var(--surface2); }
-  .email-row.selected { border-color: var(--accent); }
-  .cat-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .cat-dot.marketing { background: var(--red); }
-  .cat-dot.notification { background: var(--amber); }
-  .cat-dot.relevant { background: var(--green); }
-  .cat-dot.transactional { background: var(--blue); }
-  .email-date { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
-  .email-sender { font-weight: 500; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .email-subject { color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .email-cat { font-size: 10px; font-family: var(--font-mono); text-align: right; }
-  .email-cat.marketing { color: var(--red); }
-  .email-cat.notification { color: var(--amber); }
-  .email-cat.relevant { color: var(--green); }
-  .email-cat.transactional { color: var(--blue); }
+/* Email list */
+.email-list { display: flex; flex-direction: column; gap: 2px; }
+.erow { display: grid; grid-template-columns: 16px minmax(0,180px) minmax(0,1fr) 100px 90px; gap: 10px; align-items: center; padding: 8px 12px; border-radius: 6px; background: var(--surface); border: 1px solid transparent; font-size: 13px; cursor: pointer; transition: all 0.1s; }
+.erow:hover { border-color: var(--border2); }
+.erow.selected { border-color: var(--accent); background: var(--surface2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.dot.operacional { background: var(--green); }
+.dot.marketing { background: var(--red); }
+.dot.notificacao { background: var(--amber); }
+.dot.transacional { background: var(--blue); }
+.dot.lixo { background: #666; }
+.esender { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.esubj { color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.edate { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+.ecat { font-size: 10px; font-family: var(--mono); text-align: right; }
+.ecat.operacional { color: var(--green); }
+.ecat.marketing { color: var(--red); }
+.ecat.notificacao { color: var(--amber); }
+.ecat.transacional { color: var(--blue); }
+.ecat.lixo { color: #666; }
 
-  /* Loading */
-  .loading { text-align: center; padding: 3rem; color: var(--muted); font-family: var(--font-mono); font-size: 13px; }
-  .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+/* Labels panel */
+.labels-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.label-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.label-item:last-child { border-bottom: none; }
+.label-name { font-family: var(--mono); font-size: 12px; }
+.label-name.operacional { color: var(--green); }
+.label-count { font-size: 12px; color: var(--muted); }
 
-  /* Empty */
-  .empty { text-align: center; padding: 3rem; color: var(--muted); font-size: 13px; }
+/* Toast */
+#toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 16px; font-size: 13px; color: var(--text); opacity: 0; transition: opacity 0.2s; pointer-events: none; font-family: var(--mono); z-index: 100; }
+#toast.show { opacity: 1; }
 
-  /* Error */
-  .error-box { background: #1a0a0a; border: 1px solid #4a1010; border-radius: 8px; padding: 1rem 1.25rem; color: var(--red); font-size: 13px; margin: 1rem 0; }
+/* Loading screen */
+#screen-loading { display: none; text-align: center; padding: 4rem 0; }
+.spinner { display: inline-block; width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 1rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-msg { font-family: var(--mono); font-size: 13px; color: var(--muted2); }
 
-  /* Verdict */
-  .verdict { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; margin-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .verdict-text { font-size: 14px; line-height: 1.6; color: var(--muted2); }
-  .verdict-text strong { color: var(--text); }
-  .verdict-badge { font-family: var(--font-mono); font-size: 11px; padding: 6px 14px; border-radius: 20px; white-space: nowrap; }
-  .verdict-badge.safe { background: #0a1f0f; color: var(--green); border: 1px solid #1a3f1f; }
-  .verdict-badge.caution { background: #1a1200; color: var(--amber); border: 1px solid #3a2800; }
-
-  footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 11px; font-family: var(--font-mono); border-top: 1px solid var(--border); margin-top: 3rem; }
+footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 11px; font-family: var(--mono); border-top: 1px solid var(--border); margin-top: 3rem; }
 </style>
 </head>
 <body>
-
 <header>
-  <div class="logo">gmail<span>.</span>triagem <span>// v1.0</span></div>
-  <div style="font-size:12px; color: var(--muted); font-family: var(--font-mono);" id="header-account"></div>
+  <div class="logo">gmail<span>.</span>triagem <span>// v2.0</span></div>
+  <div id="header-email"></div>
 </header>
 
 <div class="main">
 
-  <!-- LOGIN SCREEN -->
+  <!-- LOGIN -->
   <div id="screen-login">
-    <h1 class="hero-title">Triagem de<br><strong>contas Gmail</strong></h1>
-    <p class="hero-sub">Conecte uma conta Gmail, veja os emails classificados automaticamente e decida com segurança qual pode encerrar.</p>
+    <h1 class="hero">Organize seu<br><strong>Gmail</strong></h1>
+    <p class="hero-sub">Conecte uma conta, classifique os emails automaticamente, crie pastas e jogue o lixo fora — tudo em um clique.</p>
     <button class="btn-google" onclick="startAuth()">
-      <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
       Conectar conta Gmail
     </button>
-    <div class="warning-box">
-      <span class="wi">⚠</span>
-      <p>O app solicita apenas permissão de <strong>leitura</strong>. Nenhum email será enviado, alterado ou excluído. Seus dados não saem do seu navegador.</p>
+    <div class="info-box">
+      <p>Permissões solicitadas: <strong>leitura e organização</strong> (mover, criar pastas, lixeira). Nenhum email é enviado ou deletado permanentemente.</p>
     </div>
-    <div id="login-error"></div>
   </div>
 
-  <!-- APP SCREEN -->
+  <!-- LOADING -->
+  <div id="screen-loading">
+    <div class="spinner"></div>
+    <div class="loading-msg" id="loading-msg">carregando emails...</div>
+  </div>
+
+  <!-- APP -->
   <div id="screen-app">
-    <div class="accounts-bar" id="accounts-bar">
-      <button class="btn-add" onclick="addAccount()">+ adicionar conta</button>
+
+    <div class="stats-row">
+      <div class="stat"><div class="stat-label">total</div><div class="stat-value" id="s-total">—</div></div>
+      <div class="stat"><div class="stat-label">operacional</div><div class="stat-value c-green" id="s-op">—</div></div>
+      <div class="stat"><div class="stat-label">marketing</div><div class="stat-value c-red" id="s-mkt">—</div></div>
+      <div class="stat"><div class="stat-label">notificações</div><div class="stat-value c-amber" id="s-ntf">—</div></div>
+      <div class="stat"><div class="stat-label">lixo</div><div class="stat-value" style="color:#888" id="s-lixo">—</div></div>
     </div>
 
-    <div id="account-content"></div>
-  </div>
+    <div class="action-bar">
+      <button class="btn-action primary" onclick="runCleanup()" id="btn-cleanup">
+        ✦ Rodar limpeza mensal
+      </button>
+      <button class="btn-action" onclick="createLabels()" id="btn-labels">
+        + Criar pastas operacionais
+      </button>
+      <button class="btn-action danger" onclick="trashAll()" id="btn-trash">
+        ⊘ Jogar lixo na lixeira
+      </button>
+      <button class="btn-action" onclick="reloadEmails()" style="margin-left:auto">
+        ↺ Recarregar
+      </button>
+      <button class="btn-action" onclick="switchAccount()">
+        Trocar conta
+      </button>
+    </div>
 
+    <div id="progress-bar">
+      <div class="progress-label" id="progress-label">processando...</div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <div id="labels-container"></div>
+
+    <div class="filter-row">
+      <button class="fbtn active" data-f="all" onclick="setFilter('all')">todos</button>
+      <button class="fbtn" data-f="operacional" onclick="setFilter('operacional')">operacional</button>
+      <button class="fbtn" data-f="marketing" onclick="setFilter('marketing')">marketing</button>
+      <button class="fbtn" data-f="notificacao" onclick="setFilter('notificacao')">notificações</button>
+      <button class="fbtn" data-f="transacional" onclick="setFilter('transacional')">transacionais</button>
+      <button class="fbtn" data-f="lixo" onclick="setFilter('lixo')">lixo</button>
+    </div>
+
+    <div class="email-list" id="email-list"></div>
+  </div>
 </div>
 
-<footer>triagem gmail &nbsp;·&nbsp; dados processados localmente no seu navegador &nbsp;·&nbsp; nenhuma informação é enviada a servidores externos</footer>
+<div id="toast"></div>
+<footer>gmail.triagem // sacwbr-ai // dados processados localmente</footer>
 
 <script>
 const CLIENT_ID = '607939008390-cehdk66ss8cicri33ap0357nd7hrpei0.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/gmail.readonly';
+const REDIRECT = 'https://sacwbr-ai.github.io/gmail-triagem';
+const SCOPES = 'https://www.googleapis.com/auth/gmail.modify';
 
-let accounts = {}; // email -> { token, emails }
-let activeAccount = null;
-let activeFilter = 'all';
+let token = null;
+let allEmails = [];
+let curFilter = 'all';
+let labelMap = {};
 
+// ---- AUTH ----
 function startAuth() {
-  const params = new URLSearchParams({
+  const p = new URLSearchParams({
     client_id: CLIENT_ID,
-    redirect_uri: window.location.href.split('?')[0].split('#')[0],
+    redirect_uri: REDIRECT,
     response_type: 'token',
     scope: SCOPES,
-    prompt: 'select_account',
-    state: 'auth'
+    prompt: 'select_account'
   });
-  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + p;
 }
 
-function addAccount() {
-  const params = new URLSearchParams({
-    client_id: CLIENT_ID,
-    redirect_uri: window.location.href.split('?')[0].split('#')[0],
-    response_type: 'token',
-    scope: SCOPES,
-    prompt: 'select_account',
-    state: 'auth'
-  });
-  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params;
+function switchAccount() {
+  token = null; allEmails = [];
+  document.getElementById('screen-app').style.display = 'none';
+  document.getElementById('screen-login').style.display = 'block';
+  document.getElementById('header-email').textContent = '';
+  startAuth();
 }
 
 function parseHash() {
-  const hash = window.location.hash.substring(1);
-  const params = new URLSearchParams(hash);
-  return {
-    token: params.get('access_token'),
-    state: params.get('state')
-  };
+  const h = window.location.hash.substring(1);
+  const p = new URLSearchParams(h);
+  return p.get('access_token');
 }
 
-async function getUserEmail(token) {
-  const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-    headers: { Authorization: 'Bearer ' + token }
-  });
-  const d = await r.json();
-  return d.email;
+// ---- API ----
+async function api(path, method = 'GET', body = null) {
+  const opts = { method, headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const r = await fetch('https://gmail.googleapis.com/gmail/v1' + path, opts);
+  if (!r.ok) { const e = await r.json(); throw new Error(e.error?.message || r.status); }
+  return r.json();
 }
 
-async function fetchEmails(token) {
-  // Get up to 200 message IDs
-  let messages = [];
-  let pageToken = null;
-  do {
-    const url = new URL('https://gmail.googleapis.com/gmail/v1/users/me/messages');
-    url.searchParams.set('maxResults', '100');
-    url.searchParams.set('labelIds', 'INBOX');
-    if (pageToken) url.searchParams.set('pageToken', pageToken);
-    const r = await fetch(url, { headers: { Authorization: 'Bearer ' + token } });
-    const d = await r.json();
-    if (d.messages) messages = messages.concat(d.messages);
-    pageToken = d.nextPageToken;
-  } while (pageToken && messages.length < 200);
+// ---- CATEGORIZE ----
+function categorize(from, subject) {
+  const t = (from + ' ' + subject).toLowerCase();
 
-  // Fetch metadata in batches of 10
-  const emails = [];
-  for (let i = 0; i < messages.length; i += 10) {
-    const batch = messages.slice(i, i + 10);
-    const results = await Promise.all(batch.map(m =>
-      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`, {
-        headers: { Authorization: 'Bearer ' + token }
-      }).then(r => r.json())
-    ));
-    for (const msg of results) {
-      if (!msg.payload) continue;
-      const headers = msg.payload.headers || [];
-      const get = name => (headers.find(h => h.name === name) || {}).value || '';
-      const from = get('From');
-      const subject = get('Subject') || '(sem assunto)';
-      const date = get('Date');
-      const fromEmail = (from.match(/<([^>]+)>/) || [])[1] || from;
-      const fromName = from.replace(/<[^>]+>/, '').replace(/"/g, '').trim() || fromEmail;
-      emails.push({ id: msg.id, from: fromName, email: fromEmail, subject, date: formatDate(date), category: categorize(fromEmail, fromName, subject) });
-    }
-    // Update progress
-    document.getElementById('load-progress') && (document.getElementById('load-progress').textContent = `carregando... ${emails.length} de ~${messages.length}`);
-  }
-  return emails;
-}
-
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  try {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' });
-  } catch { return dateStr.substring(0, 10); }
-}
-
-function categorize(email, name, subject) {
-  const e = (email + ' ' + name + ' ' + subject).toLowerCase();
-  // Marketing / newsletter
-  const mktPatterns = [
-    'unsubscribe','descadastrar','cancelar inscrição','newsletter','noreply','no-reply',
-    'marketing','promo','offer','oferta','desconto','discount','sale','black friday',
-    'zapier','linktree','suno','chatgpt','openai','microsoft designer','youtube premium',
-    'notify','notification@','updates@','info@','hello@','hi@','team@',
-    'mailer','campaign','mailchimp','sendgrid','klaviyo','hubspot',
-    'webinar','evento','register','inscreva'
+  // Operacional — contas pagas ou serviços ativos importantes
+  const op = [
+    'anthropic','claude','openai','chatgpt','google workspace','google one',
+    'goodnotes','paddle.com','grammarly','notion','figma','canva','adobe',
+    'github','netlify','vercel','aws','azure','digitalocean',
+    'xp inc','xpi','rico','clear','nubank','itau','bradesco','santander','inter','c6bank',
+    'mercado pago','paypal','stripe','2checkout',
+    'spotify','netflix','amazon prime','apple','microsoft 365',
+    'zapier','make','n8n','airtable',
+    'sympla','eventbrite',
+    'airbnb','booking',
+    'welltory','goodnotes','perplexity',
+    'tactiq','meetgeek','otter',
+    'imaikai','deutsche schule',
+    'ligmincha','instituto de ciências contempl',
+    'anefac','sebrae','ecid','primecursos',
+    'shopee','aliexpress','friopeças','oster','cacau lovers','pague menos',
+    'ifood','olx','quintoandar',
+    'tim','claro','vivo','oi ','net ','sky ',
+    'nfe','nota fiscal','boleto','fatura','cobrança','invoice','receipt','pagamento confirmado'
   ];
-  if (mktPatterns.some(p => e.includes(p))) return 'marketing';
+  if (op.some(p => t.includes(p))) return 'operacional';
 
-  // Notifications / automated
-  const notifPatterns = [
-    'google','alerta de segurança','security alert','sign-in','new sign',
-    'account','conta','facebook','instagram','twitter','linkedin','github',
-    'slack','notion','trello','jira','drive','calendar','meet',
-    'payment','pagamento','invoice','fatura','recibo','receipt',
-    'order','pedido','shipped','entregue','tracking'
+  // Marketing
+  const mkt = [
+    'unsubscribe','descadastrar','newsletter','no-reply','noreply',
+    'promo','oferta','desconto','discount','sale','black friday','cyber monday',
+    'band.com','minha band','esporte na band','fast company','g1 ','globo.com',
+    'acdsee','capcut','julius','presentations.ai','you.com','tengr','ideogram',
+    'fred ','clube de autores','uiclap','training for comics',
+    'cer - sebrae','cer sebrae','danny wesley','alex lashkov','linguix',
+    'mentimeter','faculdade exame','saint paul','vidnoz','imagineArt','imagine art',
+    'dharmesh','simple.ai','agent.ai','sam mallikarjunan',
+    'veed','gamma ','canva ','canva design','canva world','canva create',
+    'grammarly insights','perplexity ','andy from welltory',
+    'retiro on-line','ligmincha brasil','yogas dos sonhos',
+    'economist','tom standage','robert guest','edward carr','andrew palmer',
+    'airbnb ','welltory team',
+    'canvas ','formula 1 ','f1 ','fórmula 1'
   ];
-  if (notifPatterns.some(p => e.includes(p))) return 'notification';
+  if (mkt.some(p => t.includes(p))) return 'marketing';
 
-  // Transactional
-  const transPatterns = [
+  // Notificação
+  const ntf = [
+    'google','alerta de segurança','security alert','sign-in','novo acesso',
+    'microsoft outlook','microsoft family','microsoft designer',
+    'youtube','gmail','drive','calendar',
+    'facebook','instagram','twitter','linkedin','github ',
+    'slack','notion ','trello',
+    'apple id','icloud'
+  ];
+  if (ntf.some(p => t.includes(p))) return 'notificacao';
+
+  // Transacional
+  const trn = [
     'confirmação','confirmation','verify','verificar','activate','ativar',
-    'reset','redefinir','senha','password','código','code','otp',
-    'booking','reserva','ticket','ingresso'
+    'reset','redefinir','senha','password','código de','otp','token',
+    'bem-vindo','welcome','cadastro','acesso liberado','dados de acesso',
+    'solicitação de acesso','compra confirmada','pedido','rastreio'
   ];
-  if (transPatterns.some(p => e.includes(p))) return 'transactional';
+  if (trn.some(p => t.includes(p))) return 'transacional';
 
-  // Default: relevant
-  return 'relevant';
+  return 'lixo';
 }
 
-function renderApp() {
-  document.getElementById('screen-login').style.display = 'none';
-  document.getElementById('screen-app').style.display = 'block';
-  renderTabs();
-  if (activeAccount) renderAccount(activeAccount);
-}
+// ---- LOAD EMAILS ----
+async function loadEmails() {
+  setScreen('loading');
+  setLoading('buscando emails...');
+  allEmails = [];
 
-function renderTabs() {
-  const bar = document.getElementById('accounts-bar');
-  bar.innerHTML = '';
-  for (const email of Object.keys(accounts)) {
-    const btn = document.createElement('button');
-    btn.className = 'account-tab' + (email === activeAccount ? ' active' : '');
-    btn.textContent = email;
-    btn.onclick = () => { activeAccount = email; activeFilter = 'all'; renderApp(); };
-    bar.appendChild(btn);
+  try {
+    // Get existing labels
+    const labelsRes = await api('/users/me/labels');
+    labelMap = {};
+    for (const l of labelsRes.labels || []) labelMap[l.name] = l.id;
+
+    // Fetch messages
+    let msgs = [], pt = null;
+    do {
+      const url = `/users/me/messages?maxResults=100&labelIds=INBOX${pt ? '&pageToken=' + pt : ''}`;
+      const d = await api(url);
+      if (d.messages) msgs = msgs.concat(d.messages);
+      pt = d.nextPageToken;
+      setLoading(`buscando... ${msgs.length} emails encontrados`);
+    } while (pt && msgs.length < 500);
+
+    // Fetch metadata in batches
+    for (let i = 0; i < msgs.length; i += 20) {
+      const batch = msgs.slice(i, i + 20);
+      const results = await Promise.all(batch.map(m =>
+        api(`/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`)
+      ));
+      for (const msg of results) {
+        if (!msg.payload) continue;
+        const h = msg.payload.headers || [];
+        const get = n => (h.find(x => x.name === n) || {}).value || '';
+        const from = get('From');
+        const fromName = from.replace(/<[^>]+>/, '').replace(/"/g, '').trim() || from;
+        const fromEmail = (from.match(/<([^>]+)>/) || [])[1] || from;
+        const subject = get('Subject') || '(sem assunto)';
+        const date = formatDate(get('Date'));
+        allEmails.push({
+          id: msg.id,
+          from: fromName,
+          email: fromEmail,
+          subject,
+          date,
+          cat: categorize(from, subject),
+          labelIds: msg.labelIds || []
+        });
+      }
+      setLoading(`classificando... ${Math.min(i + 20, msgs.length)} de ${msgs.length}`);
+    }
+
+    setScreen('app');
+    renderStats();
+    renderList();
+    renderLabels();
+  } catch (e) {
+    setScreen('login');
+    toast('Erro: ' + e.message);
   }
-  const add = document.createElement('button');
-  add.className = 'btn-add';
-  add.textContent = '+ adicionar conta';
-  add.onclick = addAccount;
-  bar.appendChild(add);
 }
 
-function renderAccount(email) {
-  document.getElementById('header-account').textContent = email;
-  const content = document.getElementById('account-content');
-  const data = accounts[email];
+function formatDate(s) {
+  if (!s) return '';
+  try { return new Date(s).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }); }
+  catch { return s.substring(0, 10); }
+}
 
-  if (data.loading) {
-    content.innerHTML = `<div class="loading"><div class="spinner"></div><br><span id="load-progress">carregando emails...</span></div>`;
+// ---- RENDER ----
+function renderStats() {
+  const c = { operacional: 0, marketing: 0, notificacao: 0, transacional: 0, lixo: 0 };
+  allEmails.forEach(e => c[e.cat] = (c[e.cat] || 0) + 1);
+  document.getElementById('s-total').textContent = allEmails.length;
+  document.getElementById('s-op').textContent = c.operacional;
+  document.getElementById('s-mkt').textContent = c.marketing;
+  document.getElementById('s-ntf').textContent = c.notificacao;
+  document.getElementById('s-lixo').textContent = c.lixo + c.transacional + c.marketing;
+}
+
+function renderList() {
+  const filtered = curFilter === 'all' ? allEmails : allEmails.filter(e => e.cat === curFilter);
+  const el = document.getElementById('email-list');
+  const catLabel = { operacional: 'operacional', marketing: 'marketing', notificacao: 'notificação', transacional: 'transacional', lixo: 'lixo' };
+  if (!filtered.length) {
+    el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-size:13px">nenhum email nesta categoria</div>';
     return;
   }
-  if (data.error) {
-    content.innerHTML = `<div class="error-box">Erro ao carregar emails: ${data.error}</div>`;
-    return;
+  el.innerHTML = filtered.map(e => `
+    <div class="erow">
+      <div class="dot ${e.cat}"></div>
+      <div class="esender">${esc(e.from)}</div>
+      <div class="esubj">${esc(e.subject)}</div>
+      <div class="edate">${e.date}</div>
+      <div class="ecat ${e.cat}">${catLabel[e.cat] || e.cat}</div>
+    </div>`).join('');
+}
+
+function renderLabels() {
+  const op = allEmails.filter(e => e.cat === 'operacional');
+  const senders = {};
+  for (const e of op) {
+    const domain = e.email.split('@')[1] || e.from;
+    const key = domain.replace(/\..+$/, '').replace(/^.+\./, '');
+    senders[key] = (senders[key] || 0) + 1;
   }
-
-  const emails = data.emails || [];
-  const counts = { marketing: 0, notification: 0, relevant: 0, transactional: 0 };
-  for (const e of emails) counts[e.category] = (counts[e.category] || 0) + 1;
-
-  const filtered = activeFilter === 'all' ? emails : emails.filter(e => e.category === activeFilter);
-
-  const relevantCount = counts.relevant;
-  const verdict = relevantCount === 0
-    ? { text: 'Nenhum email relevante encontrado. <strong>Conta pode ser encerrada com segurança.</strong>', cls: 'safe', label: '✓ seguro encerrar' }
-    : relevantCount <= 5
-    ? { text: `${relevantCount} email(s) potencialmente relevante(s). <strong>Revise antes de encerrar.</strong>`, cls: 'caution', label: '⚠ revisar antes' }
-    : { text: `${relevantCount} emails relevantes encontrados. <strong>Recomendamos revisar com atenção.</strong>`, cls: 'caution', label: '⚠ revisar antes' };
-
-  content.innerHTML = `
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-label">total</div><div class="stat-value">${emails.length}</div></div>
-      <div class="stat-card"><div class="stat-label">marketing</div><div class="stat-value c-red">${counts.marketing}</div></div>
-      <div class="stat-card"><div class="stat-label">notificações</div><div class="stat-value c-amber">${counts.notification}</div></div>
-      <div class="stat-card"><div class="stat-label">relevantes</div><div class="stat-value c-green">${counts.relevant}</div></div>
-    </div>
-
-    <div class="filter-bar">
-      <button class="filter-btn${activeFilter==='all'?' active':''}" data-cat="all" onclick="setFilter('all')">todos (${emails.length})</button>
-      <button class="filter-btn${activeFilter==='marketing'?' active':''}" data-cat="marketing" onclick="setFilter('marketing')">marketing (${counts.marketing})</button>
-      <button class="filter-btn${activeFilter==='notification'?' active':''}" data-cat="notification" onclick="setFilter('notification')">notificações (${counts.notification})</button>
-      <button class="filter-btn${activeFilter==='relevant'?' active':''}" data-cat="relevant" onclick="setFilter('relevant')">relevantes (${counts.relevant})</button>
-      <button class="filter-btn${activeFilter==='transactional'?' active':''}" data-cat="transactional" onclick="setFilter('transactional')">transacionais (${counts.transactional})</button>
-    </div>
-
-    <div class="email-list" id="email-list">
-      ${filtered.length === 0 ? '<div class="empty">nenhum email nesta categoria</div>' :
-        filtered.map(e => `
-          <div class="email-row">
-            <div class="cat-dot ${e.category}"></div>
-            <div class="email-date">${e.date}</div>
-            <div style="overflow:hidden">
-              <div class="email-sender">${escHtml(e.from)}</div>
-              <div class="email-subject">${escHtml(e.subject)}</div>
-            </div>
-            <div class="email-cat ${e.category}">${catLabel(e.category)}</div>
-          </div>`).join('')}
-    </div>
-
-    <div class="verdict">
-      <div class="verdict-text">${verdict.text}</div>
-      <div class="verdict-badge ${verdict.cls}">${verdict.label}</div>
-    </div>
-  `;
+  const top = Object.entries(senders).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (!top.length) { document.getElementById('labels-container').innerHTML = ''; return; }
+  document.getElementById('labels-container').innerHTML = `
+    <div class="labels-panel" style="margin-bottom:1.5rem">
+      <div class="section-title" style="margin-bottom:8px">pastas operacionais sugeridas</div>
+      ${top.map(([name, count]) => `
+        <div class="label-item">
+          <span class="label-name operacional">📁 Operacional/${name}</span>
+          <span class="label-count">${count} emails</span>
+        </div>`).join('')}
+    </div>`;
 }
 
-function setFilter(cat) {
-  activeFilter = cat;
-  renderAccount(activeAccount);
+function setFilter(f) {
+  curFilter = f;
+  document.querySelectorAll('.fbtn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  renderList();
 }
 
-function catLabel(cat) {
-  return { marketing: 'marketing', notification: 'notificação', relevant: 'relevante', transactional: 'transacional' }[cat] || cat;
+// ---- ACTIONS ----
+async function createLabels() {
+  const op = allEmails.filter(e => e.cat === 'operacional');
+  const domains = new Set();
+  for (const e of op) {
+    const d = e.email.split('@')[1] || '';
+    const key = d.replace(/\..+$/, '').replace(/^.+\./, '') || e.from.split(' ')[0].toLowerCase();
+    domains.add(key);
+  }
+  setProgress(true, 'criando pastas...');
+  let created = 0;
+  const toCreate = Array.from(domains).slice(0, 20);
+  for (let i = 0; i < toCreate.length; i++) {
+    const name = 'Operacional/' + toCreate[i];
+    if (!labelMap[name]) {
+      try {
+        const res = await api('/users/me/labels', 'POST', { name, labelListVisibility: 'labelShow', messageListVisibility: 'show' });
+        labelMap[name] = res.id;
+        created++;
+      } catch {}
+    }
+    setProgressValue((i + 1) / toCreate.length * 100, `criando pastas... ${i + 1}/${toCreate.length}`);
+  }
+  setProgress(false);
+  toast(`${created} pastas criadas no Gmail`);
 }
 
-function escHtml(s) {
-  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+async function trashAll() {
+  const toTrash = allEmails.filter(e => e.cat === 'lixo' || e.cat === 'marketing' || e.cat === 'transacional');
+  if (!toTrash.length) { toast('Nenhum email para jogar na lixeira'); return; }
+  if (!confirm(`Jogar ${toTrash.length} emails na lixeira? (lixo + marketing + transacionais)`)) return;
+  setProgress(true, 'movendo para lixeira...');
+  let done = 0;
+  for (let i = 0; i < toTrash.length; i += 50) {
+    const batch = toTrash.slice(i, i + 50);
+    try {
+      await api('/users/me/messages/batchModify', 'POST', {
+        ids: batch.map(e => e.id),
+        addLabelIds: ['TRASH'],
+        removeLabelIds: ['INBOX']
+      });
+    } catch {}
+    done += batch.length;
+    setProgressValue(done / toTrash.length * 100, `movendo... ${done} de ${toTrash.length}`);
+    // Remove from local list
+    const batchIds = new Set(batch.map(e => e.id));
+    allEmails = allEmails.filter(e => !batchIds.has(e.id));
+  }
+  setProgress(false);
+  renderStats(); renderList();
+  toast(`${done} emails movidos para a lixeira`);
 }
 
+async function runCleanup() {
+  const toTrash = allEmails.filter(e => e.cat === 'lixo' || e.cat === 'marketing' || e.cat === 'transacional');
+  const opEmails = allEmails.filter(e => e.cat === 'operacional');
+  if (!confirm(`Limpeza mensal:\n• Criar pastas operacionais\n• Jogar ${toTrash.length} emails na lixeira\n\nContinuar?`)) return;
+  await createLabels();
+  await trashAll();
+  toast('Limpeza concluída!');
+}
+
+async function reloadEmails() {
+  await loadEmails();
+}
+
+// ---- UTILS ----
+function setScreen(s) {
+  document.getElementById('screen-login').style.display = s === 'login' ? 'block' : 'none';
+  document.getElementById('screen-loading').style.display = s === 'loading' ? 'block' : 'none';
+  document.getElementById('screen-app').style.display = s === 'app' ? 'block' : 'none';
+}
+function setLoading(msg) { document.getElementById('loading-msg').textContent = msg; }
+function setProgress(show, label = '') {
+  document.getElementById('progress-bar').style.display = show ? 'block' : 'none';
+  if (label) document.getElementById('progress-label').textContent = label;
+  if (!show) document.getElementById('progress-fill').style.width = '0%';
+}
+function setProgressValue(pct, label) {
+  document.getElementById('progress-fill').style.width = Math.round(pct) + '%';
+  if (label) document.getElementById('progress-label').textContent = label;
+}
+function esc(s) { return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ---- INIT ----
 async function init() {
-  const { token, state } = parseHash();
-  if (token && state === 'auth') {
+  const t = parseHash();
+  if (t) {
+    token = t;
     window.history.replaceState({}, '', window.location.pathname);
     try {
-      const email = await getUserEmail(token);
-      accounts[email] = { token, loading: true, emails: [] };
-      activeAccount = email;
-      renderApp();
-      const emails = await fetchEmails(token);
-      accounts[email] = { token, loading: false, emails };
-      renderApp();
-    } catch (err) {
-      const email = activeAccount || 'conta';
-      if (accounts[email]) accounts[email] = { loading: false, error: err.message };
-      renderApp();
-    }
-  }
-  // Restore from sessionStorage
-  const saved = sessionStorage.getItem('gmail_triagem');
-  if (saved && !token) {
-    try {
-      const parsed = JSON.parse(saved);
-      accounts = parsed.accounts || {};
-      activeAccount = parsed.activeAccount;
-      if (Object.keys(accounts).length > 0) renderApp();
+      const ui = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
+      document.getElementById('header-email').textContent = ui.email || '';
     } catch {}
+    await loadEmails();
+  } else {
+    setScreen('login');
   }
 }
-
-// Save state on unload
-window.addEventListener('beforeunload', () => {
-  sessionStorage.setItem('gmail_triagem', JSON.stringify({ accounts, activeAccount }));
-});
 
 init();
 </script>
